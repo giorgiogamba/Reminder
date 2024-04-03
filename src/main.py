@@ -1,6 +1,7 @@
 # Created by Giorgio Gamba
 
 import os
+import time
 
 # Sends a nofification to the user through the OS with passed information in it
 def sendNotification(message, title, subtitle, soundName):
@@ -20,4 +21,7 @@ def sendNotification(message, title, subtitle, soundName):
     os.system("osascript -e '{0}' ".format(command))
 
 if __name__ == '__main__':
-    sendNotification("TEST TITLE", "TEST MSG", "TEST SUBTITLE", "Pop")
+
+    while (True):
+        sendNotification("TEST TITLE", "TEST MSG", "TEST SUBTITLE", "Pop")
+        time.sleep(300)
