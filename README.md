@@ -4,9 +4,11 @@ The aim of this project is to create a system that constantly reminds people tha
 I think that programming is amazing but staying safe is better :D
 
 ## DEVELOPMENT
-By now, the project creates a test notification and fires it every 5 minutes
+The project can create multiple notifications with different timings handled indipendently
+
+## EXECUTION
+run `$ python3 wrc/main.py`
 
 ## FURTHER DEVELPMENTS
 Possible further developments:
-1. Creation of multiple notifications sent at the same time
-2. GUI for easy notification creation by the user
+1. GUI for easy notification creation by the user
