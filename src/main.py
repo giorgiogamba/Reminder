@@ -12,23 +12,33 @@ class Notification:
         self.soundName = soundName
         self.time = time
 
-# Sends a nofification to the user through the OS with passed information in it
-def sendNotification(message, title, subtitle, soundName):
-    command = 'display notification "{0}"'.format(title)
+    # Sends a nofification to the user through the OS with passed information in it
+    def sendNotification(self):
 
-    if (title is not None):
-        command += ' with title "{0}"'.format(title)
+        # Build the command
+        command = 'display notification "{0}"'.format(self.title)
 
-    if (subtitle is not None):
-        command += ' subtitle "{0}"'.format(subtitle)
+        if (self.title is not None):
+            command += ' with title "{0}"'.format(self.title)
 
-    if (soundName is not None):
-        command += ' sound name "{0}"'.format(soundName)
+        if (self.subtitle is not None):
+            command += ' subtitle "{0}"'.format(self.subtitle)
 
-    print(command)
+        if (self.soundName is not None):
+            command += ' sound name "{0}"'.format(self.soundName)
 
-    os.system("osascript -e '{0}' ".format(command))
+        print(command)
 
+        # Execute the command
+        os.system("osascript -e '{0}' ".format(command))
+
+    def wait(self):
+        time.sleep(self.time)
+
+    def execute(self):
+        while True:
+            self.sendNotification()
+            self.wait()
 if __name__ == '__main__':
 
     while (True):
