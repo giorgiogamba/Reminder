@@ -2,6 +2,15 @@
 
 import os
 import time
+# Defines a notification
+class Notification:
+
+    def __init__(self, title, msg, subtitle, soundName, time):
+        self.title = title
+        self.msg = msg
+        self.subtitle = subtitle
+        self.soundName = soundName
+        self.time = time
 
 # Sends a nofification to the user through the OS with passed information in it
 def sendNotification(message, title, subtitle, soundName):
