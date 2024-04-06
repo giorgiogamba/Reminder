@@ -51,6 +51,11 @@ class Notification:
 
 if __name__ == '__main__':
 
-    while (True):
-        sendNotification("TEST TITLE", "TEST MSG", "TEST SUBTITLE", "Pop")
-        time.sleep(300)
+    activeNotifications = [] # Keeps track of the active notifications
+
+    # TEST CODE
+    activeNotifications.append(Notification("TITLE", "MSG", "SUBTITLE", "Pop", 10))
+    activeNotifications.append(Notification("TITLE2", "MSG2", "SUBTITLE2", "Pop", 5))
+
+    activeNotifications[0].start()
+    activeNotifications[1].start()
