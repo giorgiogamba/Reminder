@@ -1,7 +1,10 @@
 # Created by Giorgio Gamba
 
+# Imports
 import os
 import time
+from multiprocessing import Process
+
 # Defines a notification
 class Notification:
 
@@ -39,6 +42,13 @@ class Notification:
         while True:
             self.sendNotification()
             self.wait()
+
+    def start(self):
+
+        # Each notification is represented by a single process that handles its sleeping
+        process = Process(target = self.execute)
+        process.start()        
+
 if __name__ == '__main__':
 
     while (True):
