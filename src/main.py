@@ -4,6 +4,7 @@
 import os
 import time
 from multiprocessing import Process
+import tkinter as tk
 
 # Defines a notification
 class Notification:
@@ -49,6 +50,9 @@ class Notification:
         process = Process(target = self.execute)
         process.start()        
 
+def createAndAddNotification():
+    return
+
 if __name__ == '__main__':
 
     activeNotifications = [] # Keeps track of the active notifications
@@ -60,4 +64,27 @@ if __name__ == '__main__':
     activeNotifications[0].start()
     activeNotifications[1].start()
 
-    #test comment
+    # Crates User Interface
+    window = tk.Tk()
+    window.title("TEST")
+
+
+    # Add notification button
+    addButton = tk.Button(window, text='Add', width=25, command=createAndAddNotification)
+    addButton.pack()
+
+
+    # Remove notification button
+    removeButton = tk.Button(window, text='Remove', width=25, command=createAndAddNotification)
+    removeButton.pack()
+
+
+    # Notifications list view
+    listView = tk.Listbox(window)
+    listView.insert(0, activeNotifications[0])
+    listView.insert(1, activeNotifications[1])
+    listView.pack()
+
+
+    # Starts the window
+    window.mainloop()
