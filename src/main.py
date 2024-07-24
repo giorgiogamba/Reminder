@@ -70,6 +70,7 @@ if __name__ == '__main__':
     # Crates User Interface
     window = tk.Tk()
     window.title("TEST")
+    window.resizable()
 
 
     # Add notification button
@@ -84,6 +85,8 @@ if __name__ == '__main__':
 
     # Notifications list view
     listView = tk.Listbox(window)
+    listView.pack(padx=10,pady=10,fill=tk.BOTH,expand=True)
+
     listView.insert(0, activeNotifications[0])
     listView.insert(1, activeNotifications[1])
     listView.pack()
