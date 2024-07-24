@@ -6,6 +6,10 @@ import time
 from multiprocessing import Process
 import tkinter as tk
 
+# Constants
+MIN_WIDTH = 200
+MIN_HEIGHT = 200
+
 # Defines a notification
 class Notification:
 
@@ -71,7 +75,8 @@ if __name__ == '__main__':
     window = tk.Tk()
     window.title("TEST")
     window.resizable()
-
+    window.geometry("200x200")
+    window.minsize(MIN_WIDTH, MIN_HEIGHT)
 
     # Add notification button
     addButton = tk.Button(window, text='Add', width=25, command=createAndAddNotification)
