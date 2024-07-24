@@ -16,6 +16,9 @@ class Notification:
         self.soundName = soundName
         self.time = time
 
+    def __str__(self):
+        return self.title
+
     # Sends a nofification to the user through the OS with passed information in it
     def sendNotification(self):
 
