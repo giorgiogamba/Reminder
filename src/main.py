@@ -22,7 +22,7 @@ class Notification:
         self.time = time
 
     def __str__(self):
-        return self.title
+        return self.title + " -- Every " + str(self.time) + " minutes"
 
     # Sends a nofification to the user through the OS with passed information in it
     def sendNotification(self):
