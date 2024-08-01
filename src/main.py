@@ -81,6 +81,7 @@ class Window:
     def addTestNotification(self,notification):
         self.listView.insert("end", notification)
         self.listView.pack()
+        activeNotifications.append(notification)
     
     def updateListIndex(self, event):
         selection = event.widget.curselection()
@@ -112,6 +113,7 @@ class Window:
 
     def __init__(self):
         self.currIndex = None
+        activeNotifications = []
 
         self.createWindow()
         self.createButtons()
