@@ -9,6 +9,7 @@ import tkinter as tk
 # Constants
 MIN_WIDTH = 200
 MIN_HEIGHT = 200
+APP_TITLE = "Reminder"
 
 # Defines a notification
 class Notification:
