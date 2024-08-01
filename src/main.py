@@ -20,6 +20,7 @@ class Notification:
         self.subtitle = subtitle
         self.soundName = soundName
         self.time = time
+        self.process = None
 
     def __str__(self):
         return self.title + " -- Every " + str(self.time) + " minutes"
@@ -55,8 +56,12 @@ class Notification:
     def start(self):
 
         # Each notification is represented by a single process that handles its sleeping
-        process = Process(target = self.execute)
-        process.start()        
+        self.process = Process(target = self.execute)
+        self.process.start()        
+
+    def stop(self):
+        self.process.kill()
+        return
 
 class Window:
 
