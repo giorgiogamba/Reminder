@@ -58,8 +58,58 @@ class Notification:
         process = Process(target = self.execute)
         process.start()        
 
-def createAndAddNotification():
-    return
+class Window:
+
+    def createAndAddNotification():
+        return
+
+    def removeNotification():
+        # Retrieve the currently selected notification
+        
+        # stop
+        # remove from list
+        return
+    
+    def loop(self):
+        self.window.mainloop()
+    
+    def addTestNotification(self,notification):
+        self.listView.insert("end", notification)
+        self.listView.pack()
+    
+    def updateListIndex(self, event):
+        selection = event.widget.curselection()
+        if selection:
+            self.currIndex = selection[0]
+        else:
+            self.currIndex = None
+
+    def createListview(self):
+        self.listView = tk.Listbox(self.window)
+        self.listView.pack(padx=10,pady=10,fill=tk.BOTH,expand=True)
+        self.listView.bind("<<ListboxSelect>>", self.updateListIndex)
+        self.listView.pack()
+
+    def createButtons(self):
+        self.addButton = tk.Button(self.window, text='Add', width=25, command=self.createAndAddNotification)
+        self.addButton.pack()
+
+        self.removeButton = tk.Button(self.window, text='Remove', width=25, command=self.removeNotification)
+        self.removeButton.pack()
+
+    def createWindow(self):
+        self.window = tk.Tk()
+        self.window.title(APP_TITLE)
+        self.window.resizable()
+        self.window.geometry("200x200")
+        self.window.minsize(MIN_WIDTH, MIN_HEIGHT)
+
+    def __init__(self):
+        self.currIndex = None
+
+        self.createWindow()
+        self.createListview()
+        self.createButtons()
 
 if __name__ == '__main__':
 
@@ -72,31 +122,9 @@ if __name__ == '__main__':
     activeNotifications[0].start()
     activeNotifications[1].start()
 
-    # Crates User Interface
-    window = tk.Tk()
-    window.title("TEST")
-    window.resizable()
-    window.geometry("200x200")
-    window.minsize(MIN_WIDTH, MIN_HEIGHT)
-
-    # Add notification button
-    addButton = tk.Button(window, text='Add', width=25, command=createAndAddNotification)
-    addButton.pack()
-
-
-    # Remove notification button
-    removeButton = tk.Button(window, text='Remove', width=25, command=createAndAddNotification)
-    removeButton.pack()
-
-
-    # Notifications list view
-    listView = tk.Listbox(window)
-    listView.pack(padx=10,pady=10,fill=tk.BOTH,expand=True)
-
-    listView.insert(0, activeNotifications[0])
-    listView.insert(1, activeNotifications[1])
-    listView.pack()
-
+    window = Window()
+    window.addTestNotification(activeNotifications[0])
+    window.addTestNotification(activeNotifications[1])
 
     # Starts the window
-    window.mainloop()
+    window.loop()
