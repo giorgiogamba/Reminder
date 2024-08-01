@@ -109,8 +109,8 @@ class Window:
         self.currIndex = None
 
         self.createWindow()
-        self.createListview()
         self.createButtons()
+        self.createListview()
 
 if __name__ == '__main__':
 
