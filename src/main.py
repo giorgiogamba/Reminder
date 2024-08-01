@@ -80,6 +80,7 @@ class Window:
     def updateListIndex(self, event):
         selection = event.widget.curselection()
         if selection:
+            print("Changed list selection in "+str(selection[0]))
             self.currIndex = selection[0]
         else:
             self.currIndex = None
