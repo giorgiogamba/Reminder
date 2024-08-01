@@ -68,13 +68,13 @@ class Window:
     def createAndAddNotification():
         return
 
-    def removeNotification():
-        # Retrieve the currently selected notification
-        
-        # stop
-        # remove from list
-        return
-    
+    def removeNotification(self):
+        self.listView.delete(self.currIndex, self.currIndex)
+        self.listView.pack()
+
+        activeNotifications[self.currIndex].stop()
+        del activeNotifications[self.currIndex]
+            
     def loop(self):
         self.window.mainloop()
     
