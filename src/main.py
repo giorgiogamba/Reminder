@@ -75,7 +75,7 @@ class Window:
         self.activeNotifications[self.currIndex].stop()
         del self.activeNotifications[self.currIndex]
             
-    def loop(self):
+    def launchWindow(self):
         self.window.mainloop()
     
     def addTestNotification(self,notification):
@@ -143,4 +143,4 @@ if __name__ == '__main__':
     window.addTestNotification(activeNotifications[1])
 
     # Starts the window
-    window.loop()
+    window.launchWindow()
