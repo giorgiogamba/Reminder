@@ -82,6 +82,8 @@ class Window:
         self.listView.insert("end", notification)
         self.listView.pack()
         self.activeNotifications.append(notification)
+
+        notification.start()
     
     def updateListIndex(self, event):
         selection = event.widget.curselection()
@@ -129,18 +131,9 @@ class Window:
 
 if __name__ == '__main__':
 
-    activeNotifications = [] # Keeps track of the active notifications
-
-    # TEST CODE
-    activeNotifications.append(Notification("TITLE", "MSG", "SUBTITLE", "Pop", 10))
-    activeNotifications.append(Notification("TITLE2", "MSG2", "SUBTITLE2", "Pop", 5))
-
-    activeNotifications[0].start()
-    activeNotifications[1].start()
-
     window = Window()
-    window.addTestNotification(activeNotifications[0])
-    window.addTestNotification(activeNotifications[1])
+    window.addTestNotification(Notification("TITLE", "MSG", "SUBTITLE", "Pop", 10))
+    window.addTestNotification(Notification("TITLE2", "MSG2", "SUBTITLE2", "Pop", 5))
 
     # Starts the window
     window.launchWindow()
