@@ -72,8 +72,8 @@ class Window:
         self.listView.delete(self.currIndex, self.currIndex)
         self.listView.pack()
 
-        activeNotifications[self.currIndex].stop()
-        del activeNotifications[self.currIndex]
+        self.activeNotifications[self.currIndex].stop()
+        del self.activeNotifications[self.currIndex]
             
     def loop(self):
         self.window.mainloop()
@@ -81,7 +81,7 @@ class Window:
     def addTestNotification(self,notification):
         self.listView.insert("end", notification)
         self.listView.pack()
-        activeNotifications.append(notification)
+        self.activeNotifications.append(notification)
     
     def updateListIndex(self, event):
         selection = event.widget.curselection()
@@ -104,16 +104,24 @@ class Window:
         self.removeButton = tk.Button(self.window, text='Remove', width=25, command=self.removeNotification)
         self.removeButton.pack()
 
+    def onCloseApp(self):
+        for notification in self.activeNotifications:
+            notification.stop()
+
+        self.window.destroy()
+
     def createWindow(self):
         self.window = tk.Tk()
         self.window.title(APP_TITLE)
         self.window.resizable()
         self.window.geometry("200x200")
         self.window.minsize(MIN_WIDTH, MIN_HEIGHT)
+        self.window.protocol("WM_DELETE_WINDOW", self.onCloseApp)
+
 
     def __init__(self):
         self.currIndex = None
-        activeNotifications = []
+        self.activeNotifications = []
 
         self.createWindow()
         self.createButtons()
