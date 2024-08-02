@@ -65,16 +65,17 @@ class Notification:
 
 class Window:
 
-    def createAndAddNotification(self):
-        notification = Notification(self.messageText.get(), "", "", "Pop", int(self.messageTime.get()))
-        self.activeNotifications.append(notification)
-        self.listView.insert("end", notification)
-        self.listView.pack()
-
-        notification.start()
-
+    def clearTextEntries(self):
         self.messageText.delete(0, "end")
         self.messageTime.delete(0, "end")
+
+    def createAndAddNotification(self):
+        notification = Notification(self.messageText.get(), "", "", "Pop", int(self.messageTime.get()))
+
+        self.addNotification(notification)
+        self.clearTextEntries()
+
+        notification.start()
 
     def removeNotification(self):
         self.listView.delete(self.currIndex, self.currIndex)
@@ -82,16 +83,11 @@ class Window:
 
         self.activeNotifications[self.currIndex].stop()
         del self.activeNotifications[self.currIndex]
-            
-    def launchWindow(self):
-        self.window.mainloop()
     
-    def addTestNotification(self,notification):
+    def addNotification(self, notification):
         self.listView.insert("end", notification)
         self.listView.pack()
         self.activeNotifications.append(notification)
-
-        notification.start()
     
     def updateListIndex(self, event):
         selection = event.widget.curselection()
@@ -127,6 +123,9 @@ class Window:
 
         self.window.destroy()
 
+    def launchWindow(self):
+        self.window.mainloop()
+
     def createWindow(self):
         self.window = tk.Tk()
         self.window.title(APP_TITLE)
@@ -145,10 +144,5 @@ class Window:
         self.createListview()
 
 if __name__ == '__main__':
-
     window = Window()
-    window.addTestNotification(Notification("TITLE", "MSG", "SUBTITLE", "Pop", 10))
-    window.addTestNotification(Notification("TITLE2", "MSG2", "SUBTITLE2", "Pop", 5))
-
-    # Starts the window
     window.launchWindow()
