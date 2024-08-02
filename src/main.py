@@ -65,8 +65,16 @@ class Notification:
 
 class Window:
 
-    def createAndAddNotification():
-        return
+    def createAndAddNotification(self):
+        notification = Notification(self.messageText.get(), "", "", "Pop", int(self.messageTime.get()))
+        self.activeNotifications.append(notification)
+        self.listView.insert("end", notification)
+        self.listView.pack()
+
+        notification.start()
+
+        self.messageText.delete(0, "end")
+        self.messageTime.delete(0, "end")
 
     def removeNotification(self):
         self.listView.delete(self.currIndex, self.currIndex)
@@ -95,7 +103,7 @@ class Window:
 
     def createListview(self):
         self.listView = tk.Listbox(self.window)
-        self.listView.pack(padx=10,pady=10,fill=tk.BOTH,expand=True)
+        self.listView.pack(padx=10, pady=10, fill=tk.BOTH, expand=True)
         self.listView.bind("<<ListboxSelect>>", self.updateListIndex)
         self.listView.pack()
 
@@ -105,6 +113,13 @@ class Window:
 
         self.removeButton = tk.Button(self.window, text='Remove', width=25, command=self.removeNotification)
         self.removeButton.pack()
+
+    def createTextBox(self):
+        self.messageText = tk.Entry(self.window)
+        self.messageText.pack()
+
+        self.messageTime = tk.Entry(self.window)
+        self.messageTime.pack()
 
     def onCloseApp(self):
         for notification in self.activeNotifications:
@@ -120,12 +135,12 @@ class Window:
         self.window.minsize(MIN_WIDTH, MIN_HEIGHT)
         self.window.protocol("WM_DELETE_WINDOW", self.onCloseApp)
 
-
     def __init__(self):
         self.currIndex = None
         self.activeNotifications = []
 
         self.createWindow()
+        self.createTextBox()
         self.createButtons()
         self.createListview()
 
