@@ -4,6 +4,12 @@
 import os
 import time
 from multiprocessing import Process
+import tkinter as tk
+
+# Constants
+MIN_WIDTH = 200
+MIN_HEIGHT = 200
+APP_TITLE = "Reminder"
 
 # Defines a notification
 class Notification:
@@ -14,6 +20,10 @@ class Notification:
         self.subtitle = subtitle
         self.soundName = soundName
         self.time = time
+        self.process = None
+
+    def __str__(self):
+        return self.title + " -- Every " + str(self.time) + " minutes"
 
     # Sends a nofification to the user through the OS with passed information in it
     def sendNotification(self):
@@ -46,16 +56,93 @@ class Notification:
     def start(self):
 
         # Each notification is represented by a single process that handles its sleeping
-        process = Process(target = self.execute)
-        process.start()        
+        self.process = Process(target = self.execute)
+        self.process.start()        
+
+    def stop(self):
+        self.process.kill()
+        return
+
+class Window:
+
+    def clearTextEntries(self):
+        self.messageText.delete(0, "end")
+        self.messageTime.delete(0, "end")
+
+    def createAndAddNotification(self):
+        notification = Notification(self.messageText.get(), "", "", "Pop", int(self.messageTime.get()))
+
+        self.addNotification(notification)
+        self.clearTextEntries()
+
+        notification.start()
+
+    def removeNotification(self):
+        self.listView.delete(self.currIndex, self.currIndex)
+        self.listView.pack()
+
+        self.activeNotifications[self.currIndex].stop()
+        del self.activeNotifications[self.currIndex]
+    
+    def addNotification(self, notification):
+        self.listView.insert("end", notification)
+        self.listView.pack()
+        self.activeNotifications.append(notification)
+    
+    def updateListIndex(self, event):
+        selection = event.widget.curselection()
+        if selection:
+            print("Changed list selection in "+str(selection[0]))
+            self.currIndex = selection[0]
+        else:
+            self.currIndex = None
+
+    def createListview(self):
+        self.listView = tk.Listbox(self.window)
+        self.listView.pack(padx=10, pady=10, fill=tk.BOTH, expand=True)
+        self.listView.bind("<<ListboxSelect>>", self.updateListIndex)
+        self.listView.pack()
+
+    def createButtons(self):
+        self.addButton = tk.Button(self.window, text='Add', width=25, command=self.createAndAddNotification)
+        self.addButton.pack()
+
+        self.removeButton = tk.Button(self.window, text='Remove', width=25, command=self.removeNotification)
+        self.removeButton.pack()
+
+    def createTextBox(self):
+        self.messageText = tk.Entry(self.window)
+        self.messageText.pack()
+
+        self.messageTime = tk.Entry(self.window)
+        self.messageTime.pack()
+
+    def onCloseApp(self):
+        for notification in self.activeNotifications:
+            notification.stop()
+
+        self.window.destroy()
+
+    def launchWindow(self):
+        self.window.mainloop()
+
+    def createWindow(self):
+        self.window = tk.Tk()
+        self.window.title(APP_TITLE)
+        self.window.resizable()
+        self.window.geometry("200x200")
+        self.window.minsize(MIN_WIDTH, MIN_HEIGHT)
+        self.window.protocol("WM_DELETE_WINDOW", self.onCloseApp)
+
+    def __init__(self):
+        self.currIndex = None
+        self.activeNotifications = []
+
+        self.createWindow()
+        self.createTextBox()
+        self.createButtons()
+        self.createListview()
 
 if __name__ == '__main__':
-
-    activeNotifications = [] # Keeps track of the active notifications
-
-    # TEST CODE
-    activeNotifications.append(Notification("TITLE", "MSG", "SUBTITLE", "Pop", 10))
-    activeNotifications.append(Notification("TITLE2", "MSG2", "SUBTITLE2", "Pop", 5))
-
-    activeNotifications[0].start()
-    activeNotifications[1].start()
+    window = Window()
+    window.launchWindow()
